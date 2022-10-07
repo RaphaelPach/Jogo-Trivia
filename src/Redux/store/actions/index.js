@@ -1,1 +1,1 @@
-const getGame = ({ type:})
+// const getGame = ({ type:})
