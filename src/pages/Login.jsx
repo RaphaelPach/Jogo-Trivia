@@ -28,6 +28,11 @@ class Login extends Component {
     history.push('/game');
   };
 
+  handleConfigClick = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -75,6 +80,13 @@ class Login extends Component {
             onChange={ this.getToken }
           >
             Play
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleConfigClick }
+          >
+            Configurações
           </button>
         </form>
 
