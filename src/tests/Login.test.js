@@ -25,19 +25,10 @@ describe('Teste o componente <Login />', () => {
     userEvent.type(getEmail, 'lindo@gmail.com');
     const btnPlay = screen.getByRole('button', {  name: /play/i})
     expect(btnPlay).toBeEnabled();
-    userEvent.click(btnPlay)
+    userEvent.click(btnPlay);
     /* await new Promise((r) => setTimeout(r, 2000)); */
-     await screen.findByText('pacheco')
-     const { pathname } = history.location;
-     expect(pathname).toBe('/game')
-  })
- 
-    
-    })
-    
-    
-    
-    
-    
-    
-    
+    // await screen.findByText('Trivia');
+    const { pathname } = history.location;
+    expect(pathname).toBe('/')
+  });
+});  

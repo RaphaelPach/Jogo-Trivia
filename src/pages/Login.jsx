@@ -14,7 +14,6 @@ class Login extends Component {
     const url = 'https://opentdb.com/api_token.php?command=request';
     const data = await fetch(url);
     const response = await data.json();
-    console.log('log', response);
     const { dispatch } = this.props;
     dispatch(getToken(response));
     return response;
