@@ -21,10 +21,18 @@ class Login extends Component {
   };
 
   handleClick = async () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const token = await this.getToken();
-    /* const sToken = JSON.stringify(token); */
     localStorage.setItem('token', token.token);
+
+    const { email, user } = this.state;
+    const action = {
+      type: 'EMAIL',
+      email,
+      user,
+    };
+    dispatch(action);
+
     history.push('/game');
   };
 
