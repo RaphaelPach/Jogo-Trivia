@@ -11,10 +11,23 @@ class Games extends React.Component {
     // assertions: 0,
     nQuestion: 0,
     isLoading: true,
+    timer: 30,
   };
 
   async componentDidMount() {
     this.callQuestionsApi();
+    const second = 1000;
+    const time = 2000;
+    setTimeout(() => {
+      const update = setInterval(() => {
+        this.setState((prev) => {
+          if (prev.timer === 1) {
+            clearInterval(update);
+          }
+          return { timer: prev.timer - 1 };
+        });
+      }, second);
+    }, time);
   }
 
   callQuestionsApi = async () => {
@@ -57,84 +70,62 @@ class Games extends React.Component {
     return response;
   };
 
-  state = {
-    timer: 30,
-  };
-
-  componentDidMount() {
-    const second = 1000;
-    const time = 2000;
-    setTimeout(() => {
-      const update = setInterval(() => {
-        this.setState((prev) => {
-          if (prev.timer === 1) {
-            clearInterval(update);
-          }
-          return { timer: prev.timer - 1 };
-        });
-      }, second);
-    }, time);
-  }
-
   render() {
-    const { questions, nQuestion, isLoading, score } = this.state;
-    const { timer } = this.state;
+    const { questions, nQuestion, isLoading, score, timer } = this.state;
     return (
       <div>
-        <Header />
+
         <div>
-        <Header />
-        <h1>Trivia</h1>
-        <h2>
-          Score:
-          {score}
-        </h2>
-        {
-          (!isLoading) && (
-            // (questions?.results[nQuestion].type === 'multiple') && (
-            <div>
-              <h3 data-testid="question-category">
-                {questions?.results[nQuestion].category}
-              </h3>
-              <h4 data-testid="question-text">
-                {questions?.results[nQuestion].question}
-              </h4>
-              <div data-testid="answer-options">
-                {
-                  questions?.results[nQuestion].newAnswers.map((elem, index) => (
-                    (questions.results[nQuestion].incorrect_answers
-                      .some((e) => e === elem)) ? (
-                        <button
-                          key={ index }
-                          className="incorrect unColor"
-                          type="button"
-                          data-testid={ `wrong-answer-${index}` }
-                          onClick={ this.handleClickIncorrect }
-                        >
-                          {elem}
-                        </button>
-                      ) : (
-                        <button
-                          key={ index }
-                          className="correct unColor"
-                          type="button"
-                          data-testid="correct-answer"
-                          onClick={ this.handleClickCorrect }
-                        >
-                          {elem}
-                        </button>
-                      )
-                  ))
-                }
+          <Header />
+          <h1>Trivia</h1>
+          <h2>
+            Score:
+            {score}
+          </h2>
+          {
+            (!isLoading) && (
+              <div>
+                <h3 data-testid="question-category">
+                  {questions?.results[nQuestion].category}
+                </h3>
+                <h4 data-testid="question-text">
+                  {questions?.results[nQuestion].question}
+                </h4>
+                <div data-testid="answer-options">
+                  {
+                    questions?.results[nQuestion].newAnswers.map((elem, index) => (
+                      (questions.results[nQuestion].incorrect_answers
+                        .some((e) => e === elem)) ? (
+                          <button
+                            key={ index }
+                            className="incorrect unColor"
+                            type="button"
+                            data-testid={ `wrong-answer-${index}` }
+                            onClick={ this.handleClickIncorrect }
+                          >
+                            {elem}
+                          </button>
+                        ) : (
+                          <button
+                            key={ index }
+                            className="correct unColor"
+                            type="button"
+                            data-testid="correct-answer"
+                            onClick={ this.handleClickCorrect }
+                          >
+                            {elem}
+                          </button>
+                        )
+                    ))
+                  }
+                </div>
+                <h3>
+                  {timer}
+                </h3>
               </div>
-            </div>
-            // )
-          )
-        }
-      </div>
-        <h3>
-          {timer}
-        </h3>
+            )
+          }
+        </div>
       </div>
     );
   }
