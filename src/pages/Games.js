@@ -41,11 +41,6 @@ class Games extends React.Component {
     if (!prevState.timer === timer && timer === 0);
   } */
 
-  /*   componentDidUpdate(prevProps, prevState) {
-    const { timer } = this.state;
-    if (!prevState.timer === timer && timer === 0);
-  } */
-
   callQuestionsApi = async () => {
     const { history } = this.props;
     const token = localStorage.getItem('token');
@@ -87,13 +82,15 @@ class Games extends React.Component {
   };
 
   handleClickIncorrect = () => {
-<<<<<<< HEAD
-
+    this.setState(() => ({
+      /* nQuestion: prev.nQuestion + 1, */
+      showAnswer: true,
+    }));
   };
 
-  handleClickCorrect = ({ target }, difficulty) => {
-    const { /* timer */ score, assertions } = this.state;
-    const { dispatch } = this.props;
+  handleClickCorrect = (difficulty) => {
+    const { timer /* score, assertions */ } = this.state;
+    // const { dispatch } = this.props;
     let levelDif;
     const THREE = 3;
     if (difficulty === 'hard') {
@@ -104,26 +101,25 @@ class Games extends React.Component {
       levelDif = 1;
     }
     const TEN = 10;
-    const plusScore = TEN + (/* timer  * */ levelDif);
+    const plusScore = TEN + (timer * levelDif);
     this.setState((prevState) => ({
       assertions: prevState.assertions + 1,
       score: prevState.score + plusScore,
-    }));
+      showAnswer: true,
+    }), this.registerScoreAndAssertions);
+    // this.setState(() => ({
+    //   nQuestion: prev.nQuestion + 1,
+    // }));
+  };
+
+  registerScoreAndAssertions = () => {
+    const { score, assertions } = this.state;
+    const { dispatch } = this.props;
     const payload = {
       score,
       assertions,
     };
     dispatch(scoreAct(payload));
-=======
-    this.setState(() => ({
-      /* nQuestion: prev.nQuestion + 1, */
-      showAnswer: true,
-    }));
-  };
-
-  handleClickCorrect = () => {
-    this.handleClickIncorrect();
->>>>>>> 7c43170b4a1477625ce628b1924807a4441ba788
   };
 
   render() {
@@ -136,7 +132,6 @@ class Games extends React.Component {
       disabled } = this.state;
     return (
       <div>
-<<<<<<< HEAD
         <Header />
         <h1>Trivia</h1>
         <h2>
@@ -159,21 +154,30 @@ class Games extends React.Component {
                       .some((e) => e === elem)) ? (
                         <button
                           key={ index }
-                          className="incorrect unColor"
+                          {
+                            ...(showAnswer && { style: { border: '3px solid red' } })
+                          }
+                          className="incorrect-unColor"
                           type="button"
                           data-testid={ `wrong-answer-${index}` }
                           onClick={ this.handleClickIncorrect }
+                          disabled={ disabled }
                         >
                           {elem}
                         </button>
                       ) : (
                         <button
                           key={ index }
-                          className="correct unColor"
+                          {
+                            ...(showAnswer
+                               && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                          }
+                          className="correct-unColor"
                           type="button"
+                          disabled={ disabled }
                           data-testid="correct-answer"
-                          onClick={ (e) => this
-                            .handleClickCorrect(e, questions
+                          onClick={ () => this
+                            .handleClickCorrect(questions
                               .results[nQuestion].difficulty) }
                         >
                           {elem}
@@ -182,72 +186,12 @@ class Games extends React.Component {
                   ))
                 }
               </div>
+              <h3>
+                {timer}
+              </h3>
             </div>
           )
         }
-=======
-
-        <div>
-          <Header />
-          <h1>Trivia</h1>
-          <h2>
-            Score:
-            {score}
-          </h2>
-          {
-            (!isLoading) && (
-              <div>
-                <h3 data-testid="question-category">
-                  {questions?.results[nQuestion].category}
-                </h3>
-                <h4 data-testid="question-text">
-                  {questions?.results[nQuestion].question}
-                </h4>
-                <div data-testid="answer-options">
-                  {
-                    questions?.results[nQuestion].newAnswers.map((elem, index) => (
-                      (questions.results[nQuestion].incorrect_answers
-                        .some((e) => e === elem)) ? (
-                          <button
-                            key={ index }
-                            {
-                              ...(showAnswer && { style: { border: '3px solid red' } })
-                            }
-                            className="incorrect-unColor"
-                            type="button"
-                            data-testid={ `wrong-answer-${index}` }
-                            onClick={ this.handleClickIncorrect }
-                            disabled={ disabled }
-                          >
-                            {elem}
-                          </button>
-                        ) : (
-                          <button
-                            key={ index }
-                            {
-                              ...(showAnswer
-                                 && { style: { border: '3px solid rgb(6, 240, 15)' } })
-                            }
-                            className="correct-unColor"
-                            type="button"
-                            data-testid="correct-answer"
-                            onClick={ this.handleClickCorrect }
-                            disabled={ disabled }
-                          >
-                            {elem}
-                          </button>
-                        )
-                    ))
-                  }
-                </div>
-                <h3>
-                  {timer}
-                </h3>
-              </div>
-            )
-          }
-        </div>
->>>>>>> 7c43170b4a1477625ce628b1924807a4441ba788
       </div>
     );
   }
