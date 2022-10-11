@@ -16,7 +16,7 @@ class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userName: state.data[2],
+  userName: state.player.name,
 });
 /* Feedback.propTypes = {
   userName: PropTypes.func

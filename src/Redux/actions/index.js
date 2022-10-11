@@ -11,10 +11,10 @@ const scoreAct = (payload) => ({
   score: payload.score,
 });
 
-const email = (payload) => ({
+const emailAction = (payload) => ({
   type: EMAIL,
   email: payload.email,
   user: payload.user,
 });
 
-export { getToken, scoreAct, email };
+export { getToken, scoreAct, emailAction };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getToken } from '../Redux/actions';
+import { getToken, emailAction } from '../Redux/actions';
 
 class Login extends Component {
   state = {
@@ -26,11 +26,10 @@ class Login extends Component {
 
     const { email, user } = this.state;
     const action = {
-      type: 'EMAIL',
       email,
       user,
     };
-    dispatch(action);
+    dispatch(emailAction(action));
 
     history.push('/game');
   };
