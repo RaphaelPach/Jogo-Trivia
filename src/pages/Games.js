@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 /* import Header from '../components/Header'; */
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import '../App.css';
 
 class Games extends React.Component {
   state = {
@@ -12,6 +13,7 @@ class Games extends React.Component {
     nQuestion: 0,
     isLoading: true,
     timer: 30,
+    showAnswer: false,
   };
 
   async componentDidMount() {
@@ -70,8 +72,19 @@ class Games extends React.Component {
     return response;
   };
 
+  handleClickIncorrect = () => {
+    this.setState(() => ({
+      /* nQuestion: prev.nQuestion + 1, */
+      showAnswer: true,
+    }));
+  };
+
+  handleClickCorrect = () => {
+    this.handleClickIncorrect();
+  };
+
   render() {
-    const { questions, nQuestion, isLoading, score, timer } = this.state;
+    const { questions, nQuestion, isLoading, score, timer, showAnswer } = this.state;
     return (
       <div>
 
@@ -98,7 +111,11 @@ class Games extends React.Component {
                         .some((e) => e === elem)) ? (
                           <button
                             key={ index }
-                            className="incorrect unColor"
+                            /* style={ showAnswer && { border: '3px solid red' } } */
+                            {
+                              ...(showAnswer && { style: { border: '3px solid red' } })
+                            }
+                            className="incorrect-unColor"
                             type="button"
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.handleClickIncorrect }
@@ -108,7 +125,11 @@ class Games extends React.Component {
                         ) : (
                           <button
                             key={ index }
-                            className="correct unColor"
+                            {
+                              ...(showAnswer
+                                 && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                            }
+                            className="correct-unColor"
                             type="button"
                             data-testid="correct-answer"
                             onClick={ this.handleClickCorrect }
