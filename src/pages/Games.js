@@ -95,10 +95,17 @@ class Games extends React.Component {
   };
 
   nextQuestion = () => {
+    const { nQuestion } = this.state;
+    const FOUR = 4;
+    const { history } = this.props;
     this.setState((prev) => ({
       nQuestion: prev.nQuestion + 1,
       response: false,
+      timer: 30,
     }));
+    if (nQuestion === FOUR) {
+      history.push('/feedback');
+    }
   };
 
   render() {
