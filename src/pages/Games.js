@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-/* import Header from '../components/Header'; */
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { scoreAct } from '../Redux/actions';
 import '../App.css';
 
 class Games extends React.Component {
   state = {
     questions: {},
     score: 0,
-    // assertions: 0,
+    assertions: 0,
     nQuestion: 0,
     isLoading: true,
     timer: 30,
@@ -90,8 +90,38 @@ class Games extends React.Component {
     }));
   };
 
-  handleClickCorrect = () => {
-    this.handleClickIncorrect();
+  handleClickCorrect = (difficulty) => {
+    const { timer /* score, assertions */ } = this.state;
+    // const { dispatch } = this.props;
+    let levelDif;
+    const THREE = 3;
+    if (difficulty === 'hard') {
+      levelDif = THREE;
+    } else if (difficulty === 'medium') {
+      levelDif = 2;
+    } else {
+      levelDif = 1;
+    }
+    const TEN = 10;
+    const plusScore = TEN + (timer * levelDif);
+    this.setState((prevState) => ({
+      assertions: prevState.assertions + 1,
+      score: prevState.score + plusScore,
+      showAnswer: true,
+    }), this.registerScoreAndAssertions);
+    // this.setState(() => ({
+    //   nQuestion: prev.nQuestion + 1,
+    // }));
+  };
+
+  registerScoreAndAssertions = () => {
+    const { score, assertions } = this.state;
+    const { dispatch } = this.props;
+    const payload = {
+      score,
+      assertions,
+    };
+    dispatch(scoreAct(payload));
   };
 
   nextQuestion = () => {
@@ -120,60 +150,62 @@ class Games extends React.Component {
     return (
       <div>
 
-        <div>
-          <Header />
-          <h1>Trivia</h1>
-          <h2>
-            Score:
-            {score}
-          </h2>
-          {
-            (!isLoading) && (
-              <div>
-                <h3 data-testid="question-category">
-                  {questions?.results[nQuestion].category}
-                </h3>
-                <h4 data-testid="question-text">
-                  {questions?.results[nQuestion].question}
-                </h4>
-                <div data-testid="answer-options">
-                  {
-                    questions?.results[nQuestion].newAnswers.map((elem, index) => (
-                      (questions.results[nQuestion].incorrect_answers
-                        .some((e) => e === elem)) ? (
-                          <button
-                            key={ index }
-                            {
-                              ...(showAnswer && response
-                                 && { style: { border: '3px solid red' } })
-                            }
-                            className="incorrect-unColor"
-                            type="button"
-                            data-testid={ `wrong-answer-${index}` }
-                            onClick={ this.handleClickIncorrect }
-                            disabled={ disabled }
-                          >
-                            {elem}
-                          </button>
-                        ) : (
-                          <button
-                            key={ index }
-                            {
-                              ...(showAnswer
-                                 && response
-                                 && { style: { border: '3px solid rgb(6, 240, 15)' } })
-                            }
-                            className="correct-unColor"
-                            type="button"
-                            data-testid="correct-answer"
-                            onClick={ this.handleClickCorrect }
-                            disabled={ disabled }
-                          >
-                            {elem}
-                          </button>
-                        )
-                    ))
-                  }
+        <Header />
+        <h1>Trivia</h1>
+        <h2>
+          Score:
+          {score}
+        </h2>
+        {
+          (!isLoading) && (
+            <div>
+              <h3 data-testid="question-category">
+                {questions?.results[nQuestion].category}
+              </h3>
+              <h4 data-testid="question-text">
+                {questions?.results[nQuestion].question}
+              </h4>
+              <div data-testid="answer-options">
+                {
+                  questions?.results[nQuestion].newAnswers.map((elem, index) => (
+                    (questions.results[nQuestion].incorrect_answers
+                      .some((e) => e === elem)) ? (
+                        <button
+                          key={ index }
+                          {
+                            ...(showAnswer && { style: { border: '3px solid red' } })
+                          }
+                          className="incorrect-unColor"
+                          type="button"
+                          data-testid={ `wrong-answer-${index}` }
+                          onClick={ this.handleClickIncorrect }
+                          disabled={ disabled }
+                        >
+                          {elem}
+                        </button>
+                      ) : (
+                        <button
+                          key={ index }
+                          {
+                            ...(showAnswer
+                               && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                          }
+                          className="correct-unColor"
+                          type="button"
+                          disabled={ disabled }
+                          data-testid="correct-answer"
+                          onClick={ () => this
+                            .handleClickCorrect(questions
+                              .results[nQuestion].difficulty) }
+                        >
+                          {elem}
+                        </button>
+                      )
+                  ))
+                }
+
+
+        
                 </div>
                 { response && (
                   <button
@@ -187,19 +219,20 @@ class Games extends React.Component {
 
                   </button>
                 ) }
-                <h3>
-                  {timer}
-                </h3>
               </div>
-            )
-          }
-        </div>
+              <h3>
+                {timer}
+              </h3>
+            </div>
+          )
+        }
       </div>
     );
   }
 }
 
 Games.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
