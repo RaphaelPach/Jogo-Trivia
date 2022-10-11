@@ -11,7 +11,7 @@ class Feedback extends Component {
 
   render() {
     const THREE = 3;
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     return (
       <div>
         <Header />
@@ -28,6 +28,16 @@ class Feedback extends Component {
             ? <h3 data-testid="feedback-text">Well Done!</h3>
             : <h3 data-testid="feedback-text">Could be better...</h3>
         }
+        <h4
+          data-testid="feedback-total-question"
+        >
+          {assertions}
+        </h4>
+        <h4
+          data-testid="feedback-total-score"
+        >
+          {score}
+        </h4>
       </div>
     );
   }
@@ -36,6 +46,7 @@ class Feedback extends Component {
 const mapStateToProps = (state) => ({
   // userName: state.player.name,
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 /* Feedback.propTypes = {
   userName: PropTypes.func
@@ -45,7 +56,8 @@ Feedback.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  assertions: PropTypes.string.isRequired,
+  assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
