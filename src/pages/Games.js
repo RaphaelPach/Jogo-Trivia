@@ -125,10 +125,17 @@ class Games extends React.Component {
   };
 
   nextQuestion = () => {
+    const { nQuestion } = this.state;
+    const FOUR = 4;
+    const { history } = this.props;
     this.setState((prev) => ({
       nQuestion: prev.nQuestion + 1,
       response: false,
+      timer: 30,
     }));
+    if (nQuestion === FOUR) {
+      history.push('/feedback');
+    }
   };
 
   render() {
@@ -196,23 +203,18 @@ class Games extends React.Component {
                       )
                   ))
                 }
-
-
-        
-                </div>
-                { response && (
+              </div>
+              {
+                (response) && (
                   <button
                     type="button"
                     data-testid="btn-next"
                     onClick={ this.nextQuestion }
                   >
-                    {' '}
                     Next
-                    {' '}
-
                   </button>
-                ) }
-              </div>
+                )
+              }
               <h3>
                 {timer}
               </h3>
