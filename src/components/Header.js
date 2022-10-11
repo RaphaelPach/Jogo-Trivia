@@ -45,10 +45,11 @@ Header.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.email,
-  userName: state.userName,
-  userScore: state.userScore,
-  userPicture: state.userPicture,
+  email: state.player.gravatarEmail,
+  userName: state.player.name,
+  userScore: state.player.score,
+  /* userScore: state.userScore, */
+  /* userPicture: state.userPicture, */
 });
 
 export default connect(mapStateToProps)(Header);

@@ -9,13 +9,14 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
+        <h1 data-testid="feedback-text"> Feedback </h1>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  userName: state.data[2],
+  userName: state.player.name,
 });
 /* Feedback.propTypes = {
   userName: PropTypes.func
