@@ -1,8 +1,20 @@
-const GET_TOKEN = 'GET_TOKEN';
+import { SCORE, EMAIL, GET_TOKEN } from './actionTypes';
 
 const getToken = (payload) => ({
   type: GET_TOKEN,
   payload,
 });
 
-export { GET_TOKEN, getToken };
+const scoreAct = (payload) => ({
+  type: SCORE,
+  assertions: payload.assertions,
+  score: payload.score,
+});
+
+const email = (payload) => ({
+  type: EMAIL,
+  email: payload.email,
+  user: payload.user,
+});
+
+export { getToken, scoreAct, email };

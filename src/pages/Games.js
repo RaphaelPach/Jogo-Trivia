@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-/* import Header from '../components/Header'; */
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { scoreAct } from '../Redux/actions';
 
 class Games extends React.Component {
   state = {
     questions: {},
     score: 0,
-    // assertions: 0,
+    assertions: 0,
     nQuestion: 0,
     isLoading: true,
   };
@@ -57,6 +57,35 @@ class Games extends React.Component {
     return response;
   };
 
+  handleClickIncorrect = () => {
+
+  };
+
+  handleClickCorrect = ({ target }, difficulty) => {
+    const { /* timer */ score, assertions } = this.state;
+    const { dispatch } = this.props;
+    let levelDif;
+    const THREE = 3;
+    if (difficulty === 'hard') {
+      levelDif = THREE;
+    } else if (difficulty === 'medium') {
+      levelDif = 2;
+    } else {
+      levelDif = 1;
+    }
+    const TEN = 10;
+    const plusScore = TEN + (/* timer  * */ levelDif);
+    this.setState((prevState) => ({
+      assertions: prevState.assertions + 1,
+      score: prevState.score + plusScore,
+    }));
+    const payload = {
+      score,
+      assertions,
+    };
+    dispatch(scoreAct(payload));
+  };
+
   render() {
     const { questions, nQuestion, isLoading, score } = this.state;
     return (
@@ -69,7 +98,6 @@ class Games extends React.Component {
         </h2>
         {
           (!isLoading) && (
-            // (questions?.results[nQuestion].type === 'multiple') && (
             <div>
               <h3 data-testid="question-category">
                 {questions?.results[nQuestion].category}
@@ -97,7 +125,9 @@ class Games extends React.Component {
                           className="correct unColor"
                           type="button"
                           data-testid="correct-answer"
-                          onClick={ this.handleClickCorrect }
+                          onClick={ (e) => this
+                            .handleClickCorrect(e, questions
+                              .results[nQuestion].difficulty) }
                         >
                           {elem}
                         </button>
@@ -106,7 +136,6 @@ class Games extends React.Component {
                 }
               </div>
             </div>
-            // )
           )
         }
       </div>
@@ -115,6 +144,7 @@ class Games extends React.Component {
 }
 
 Games.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
