@@ -108,10 +108,8 @@ class Games extends React.Component {
       assertions: prevState.assertions + 1,
       score: prevState.score + plusScore,
       showAnswer: true,
+      response: true,
     }), this.registerScoreAndAssertions);
-    // this.setState(() => ({
-    //   nQuestion: prev.nQuestion + 1,
-    // }));
   };
 
   registerScoreAndAssertions = () => {
@@ -173,7 +171,8 @@ class Games extends React.Component {
                         <button
                           key={ index }
                           {
-                            ...(showAnswer && { style: { border: '3px solid red' } })
+                            ...(showAnswer
+                          && response && { style: { border: '3px solid red' } })
                           }
                           className="incorrect-unColor"
                           type="button"
@@ -188,7 +187,8 @@ class Games extends React.Component {
                           key={ index }
                           {
                             ...(showAnswer
-                               && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                          && response
+                          && { style: { border: '3px solid rgb(6, 240, 15)' } })
                           }
                           className="correct-unColor"
                           type="button"
