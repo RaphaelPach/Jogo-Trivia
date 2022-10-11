@@ -203,23 +203,18 @@ class Games extends React.Component {
                       )
                   ))
                 }
-
-
-        
-                </div>
-                { response && (
+              </div>
+              {
+                (response) && (
                   <button
                     type="button"
                     data-testid="btn-next"
                     onClick={ this.nextQuestion }
                   >
-                    {' '}
                     Next
-                    {' '}
-
                   </button>
-                ) }
-              </div>
+                )
+              }
               <h3>
                 {timer}
               </h3>
