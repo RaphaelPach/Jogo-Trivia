@@ -15,6 +15,7 @@ class Games extends React.Component {
     timer: 30,
     showAnswer: false,
     disabled: false,
+    response: false,
   };
 
   async componentDidMount() {
@@ -85,11 +86,19 @@ class Games extends React.Component {
     this.setState(() => ({
       /* nQuestion: prev.nQuestion + 1, */
       showAnswer: true,
+      response: true,
     }));
   };
 
   handleClickCorrect = () => {
     this.handleClickIncorrect();
+  };
+
+  nextQuestion = () => {
+    this.setState((prev) => ({
+      nQuestion: prev.nQuestion + 1,
+      response: false,
+    }));
   };
 
   render() {
@@ -99,7 +108,8 @@ class Games extends React.Component {
       score,
       timer,
       showAnswer,
-      disabled } = this.state;
+      disabled,
+      response } = this.state;
     return (
       <div>
 
@@ -127,7 +137,8 @@ class Games extends React.Component {
                           <button
                             key={ index }
                             {
-                              ...(showAnswer && { style: { border: '3px solid red' } })
+                              ...(showAnswer && response
+                                 && { style: { border: '3px solid red' } })
                             }
                             className="incorrect-unColor"
                             type="button"
@@ -142,6 +153,7 @@ class Games extends React.Component {
                             key={ index }
                             {
                               ...(showAnswer
+                                 && response
                                  && { style: { border: '3px solid rgb(6, 240, 15)' } })
                             }
                             className="correct-unColor"
@@ -156,6 +168,18 @@ class Games extends React.Component {
                     ))
                   }
                 </div>
+                { response && (
+                  <button
+                    type="button"
+                    data-testid="btn-next"
+                    onClick={ this.nextQuestion }
+                  >
+                    {' '}
+                    Next
+                    {' '}
+
+                  </button>
+                ) }
                 <h3>
                   {timer}
                 </h3>
