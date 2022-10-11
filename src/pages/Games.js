@@ -14,6 +14,7 @@ class Games extends React.Component {
     isLoading: true,
     timer: 30,
     showAnswer: false,
+    disabled: false,
   };
 
   async componentDidMount() {
@@ -25,12 +26,20 @@ class Games extends React.Component {
         this.setState((prev) => {
           if (prev.timer === 1) {
             clearInterval(update);
+            this.setState({
+              disabled: true,
+            });
           }
           return { timer: prev.timer - 1 };
         });
       }, second);
     }, time);
   }
+
+  /*   componentDidUpdate(prevProps, prevState) {
+    const { timer } = this.state;
+    if (!prevState.timer === timer && timer === 0);
+  } */
 
   callQuestionsApi = async () => {
     const { history } = this.props;
@@ -84,7 +93,13 @@ class Games extends React.Component {
   };
 
   render() {
-    const { questions, nQuestion, isLoading, score, timer, showAnswer } = this.state;
+    const { questions,
+      nQuestion,
+      isLoading,
+      score,
+      timer,
+      showAnswer,
+      disabled } = this.state;
     return (
       <div>
 
@@ -111,7 +126,6 @@ class Games extends React.Component {
                         .some((e) => e === elem)) ? (
                           <button
                             key={ index }
-                            /* style={ showAnswer && { border: '3px solid red' } } */
                             {
                               ...(showAnswer && { style: { border: '3px solid red' } })
                             }
@@ -119,6 +133,7 @@ class Games extends React.Component {
                             type="button"
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.handleClickIncorrect }
+                            disabled={ disabled }
                           >
                             {elem}
                           </button>
@@ -133,6 +148,7 @@ class Games extends React.Component {
                             type="button"
                             data-testid="correct-answer"
                             onClick={ this.handleClickCorrect }
+                            disabled={ disabled }
                           >
                             {elem}
                           </button>
