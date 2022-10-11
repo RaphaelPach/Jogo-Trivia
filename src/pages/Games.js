@@ -15,6 +15,7 @@ class Games extends React.Component {
     timer: 30,
     showAnswer: false,
     disabled: false,
+    response: false,
   };
 
   async componentDidMount() {
@@ -85,6 +86,7 @@ class Games extends React.Component {
     this.setState(() => ({
       /* nQuestion: prev.nQuestion + 1, */
       showAnswer: true,
+      response: true,
     }));
   };
 
@@ -122,6 +124,13 @@ class Games extends React.Component {
     dispatch(scoreAct(payload));
   };
 
+  nextQuestion = () => {
+    this.setState((prev) => ({
+      nQuestion: prev.nQuestion + 1,
+      response: false,
+    }));
+  };
+
   render() {
     const { questions,
       nQuestion,
@@ -129,9 +138,11 @@ class Games extends React.Component {
       score,
       timer,
       showAnswer,
-      disabled } = this.state;
+      disabled,
+      response } = this.state;
     return (
       <div>
+
         <Header />
         <h1>Trivia</h1>
         <h2>
@@ -185,6 +196,22 @@ class Games extends React.Component {
                       )
                   ))
                 }
+
+
+        
+                </div>
+                { response && (
+                  <button
+                    type="button"
+                    data-testid="btn-next"
+                    onClick={ this.nextQuestion }
+                  >
+                    {' '}
+                    Next
+                    {' '}
+
+                  </button>
+                ) }
               </div>
               <h3>
                 {timer}
