@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { scoreAct } from '../Redux/actions';
+import '../App.css';
 
 class Games extends React.Component {
   state = {
@@ -11,11 +12,39 @@ class Games extends React.Component {
     assertions: 0,
     nQuestion: 0,
     isLoading: true,
+    timer: 30,
+    showAnswer: false,
+    disabled: false,
   };
 
   async componentDidMount() {
     this.callQuestionsApi();
+    const second = 1000;
+    const time = 2000;
+    setTimeout(() => {
+      const update = setInterval(() => {
+        this.setState((prev) => {
+          if (prev.timer === 1) {
+            clearInterval(update);
+            this.setState({
+              disabled: true,
+            });
+          }
+          return { timer: prev.timer - 1 };
+        });
+      }, second);
+    }, time);
   }
+
+  /*   componentDidUpdate(prevProps, prevState) {
+    const { timer } = this.state;
+    if (!prevState.timer === timer && timer === 0);
+  } */
+
+  /*   componentDidUpdate(prevProps, prevState) {
+    const { timer } = this.state;
+    if (!prevState.timer === timer && timer === 0);
+  } */
 
   callQuestionsApi = async () => {
     const { history } = this.props;
@@ -58,6 +87,7 @@ class Games extends React.Component {
   };
 
   handleClickIncorrect = () => {
+<<<<<<< HEAD
 
   };
 
@@ -84,12 +114,29 @@ class Games extends React.Component {
       assertions,
     };
     dispatch(scoreAct(payload));
+=======
+    this.setState(() => ({
+      /* nQuestion: prev.nQuestion + 1, */
+      showAnswer: true,
+    }));
+  };
+
+  handleClickCorrect = () => {
+    this.handleClickIncorrect();
+>>>>>>> 7c43170b4a1477625ce628b1924807a4441ba788
   };
 
   render() {
-    const { questions, nQuestion, isLoading, score } = this.state;
+    const { questions,
+      nQuestion,
+      isLoading,
+      score,
+      timer,
+      showAnswer,
+      disabled } = this.state;
     return (
       <div>
+<<<<<<< HEAD
         <Header />
         <h1>Trivia</h1>
         <h2>
@@ -138,6 +185,69 @@ class Games extends React.Component {
             </div>
           )
         }
+=======
+
+        <div>
+          <Header />
+          <h1>Trivia</h1>
+          <h2>
+            Score:
+            {score}
+          </h2>
+          {
+            (!isLoading) && (
+              <div>
+                <h3 data-testid="question-category">
+                  {questions?.results[nQuestion].category}
+                </h3>
+                <h4 data-testid="question-text">
+                  {questions?.results[nQuestion].question}
+                </h4>
+                <div data-testid="answer-options">
+                  {
+                    questions?.results[nQuestion].newAnswers.map((elem, index) => (
+                      (questions.results[nQuestion].incorrect_answers
+                        .some((e) => e === elem)) ? (
+                          <button
+                            key={ index }
+                            {
+                              ...(showAnswer && { style: { border: '3px solid red' } })
+                            }
+                            className="incorrect-unColor"
+                            type="button"
+                            data-testid={ `wrong-answer-${index}` }
+                            onClick={ this.handleClickIncorrect }
+                            disabled={ disabled }
+                          >
+                            {elem}
+                          </button>
+                        ) : (
+                          <button
+                            key={ index }
+                            {
+                              ...(showAnswer
+                                 && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                            }
+                            className="correct-unColor"
+                            type="button"
+                            data-testid="correct-answer"
+                            onClick={ this.handleClickCorrect }
+                            disabled={ disabled }
+                          >
+                            {elem}
+                          </button>
+                        )
+                    ))
+                  }
+                </div>
+                <h3>
+                  {timer}
+                </h3>
+              </div>
+            )
+          }
+        </div>
+>>>>>>> 7c43170b4a1477625ce628b1924807a4441ba788
       </div>
     );
   }
