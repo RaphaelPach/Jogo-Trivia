@@ -25,8 +25,8 @@ class Feedback extends Component {
         </button>
         {
           assertions >= THREE
-            ? <h3>Well Done!</h3>
-            : <h3>Could be better...</h3>
+            ? <h3 data-testid="feedback-text">Well Done!</h3>
+            : <h3 data-testid="feedback-text">Could be better...</h3>
         }
       </div>
     );
