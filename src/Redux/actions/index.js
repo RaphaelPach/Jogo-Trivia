@@ -1,4 +1,4 @@
-import { SCORE, EMAIL, GET_TOKEN } from './actionTypes';
+import { SCORE, EMAIL, GET_TOKEN, URL_PIC } from './actionTypes';
 
 const getToken = (payload) => ({
   type: GET_TOKEN,
@@ -17,4 +17,9 @@ const emailAction = (payload) => ({
   user: payload.user,
 });
 
-export { getToken, scoreAct, emailAction };
+const urlAction = (payload) => ({
+  type: URL_PIC,
+  url: payload,
+});
+
+export { getToken, scoreAct, emailAction, urlAction };

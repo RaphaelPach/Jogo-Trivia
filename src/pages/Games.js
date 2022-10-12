@@ -37,11 +37,6 @@ class Games extends React.Component {
     }, time);
   }
 
-  /*   componentDidUpdate(prevProps, prevState) {
-    const { timer } = this.state;
-    if (!prevState.timer === timer && timer === 0);
-  } */
-
   callQuestionsApi = async () => {
     const { history } = this.props;
     const token = localStorage.getItem('token');
@@ -84,15 +79,13 @@ class Games extends React.Component {
 
   handleClickIncorrect = () => {
     this.setState(() => ({
-      /* nQuestion: prev.nQuestion + 1, */
       showAnswer: true,
       response: true,
     }));
   };
 
   handleClickCorrect = (difficulty) => {
-    const { timer /* score, assertions */ } = this.state;
-    // const { dispatch } = this.props;
+    const { timer } = this.state;
     let levelDif;
     const THREE = 3;
     if (difficulty === 'hard') {
@@ -115,10 +108,7 @@ class Games extends React.Component {
   registerScoreAndAssertions = () => {
     const { score, assertions } = this.state;
     const { dispatch } = this.props;
-    const payload = {
-      score,
-      assertions,
-    };
+    const payload = { score, assertions };
     dispatch(scoreAct(payload));
   };
 
@@ -132,14 +122,27 @@ class Games extends React.Component {
       timer: 30,
     }));
     if (nQuestion === FOUR) {
+      this.saveScoreStorage();
       history.push('/feedback');
     }
   };
 
+  saveScoreStorage = () => {
+    const { score } = this.state;
+    const { name, url } = this.props;
+    const userInfo = { name, score, picture: url };
+    const rankList = JSON.parse(localStorage.getItem('ranking'));
+    let newRankList;
+    if (rankList) {
+      newRankList = [...rankList, userInfo];
+    } else {
+      newRankList = [userInfo];
+    }
+    localStorage.setItem('ranking', JSON.stringify(newRankList));
+  };
+
   render() {
-    const { questions,
-      nQuestion,
-      isLoading,
+    const { questions, nQuestion, isLoading,
       score,
       timer,
       showAnswer,
@@ -226,11 +229,22 @@ class Games extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  name: state.player.name,
+  url: state.player.url,
+});
+
+Games.defaultProps = {
+  url: '',
+};
+
 Games.propTypes = {
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string,
 };
 
-export default connect()(Games);
+export default connect(mapStateToProps)(Games);
