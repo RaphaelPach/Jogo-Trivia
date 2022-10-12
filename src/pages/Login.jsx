@@ -56,7 +56,7 @@ class Login extends Component {
   };
 
   render() {
-    const { disabled/* , email, user */ } = this.state;
+    const { disabled } = this.state;
     return (
       <div>
         <form>
