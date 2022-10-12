@@ -7,10 +7,9 @@
 
   export const player = {
    player: {
-
      name: '',
+     assertions: 0,
      score: 0,
      gravatarEmail: '',
-
-   }
+    }
   }
