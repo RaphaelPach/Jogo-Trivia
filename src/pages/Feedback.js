@@ -9,6 +9,11 @@ class Feedback extends Component {
     history.push('/');
   };
 
+  handleClickRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  };
+
   render() {
     const THREE = 3;
     const { assertions, score } = this.props;
@@ -28,16 +33,25 @@ class Feedback extends Component {
             ? <h3 data-testid="feedback-text">Well Done!</h3>
             : <h3 data-testid="feedback-text">Could be better...</h3>
         }
+        <h4> Total de questões certas:</h4>
         <h4
           data-testid="feedback-total-question"
         >
           {assertions}
         </h4>
+        <h4>Pontuação total:</h4>
         <h4
           data-testid="feedback-total-score"
         >
           {score}
         </h4>
+        <button
+          data-testid="btn-ranking"
+          type="button"
+          onClick={ this.handleClickRanking }
+        >
+          Ranking
+        </button>
       </div>
     );
   }
