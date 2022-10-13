@@ -1,0 +1,72 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    background-color: rgb(181, 222, 173);
+}
+
+.body-login {
+    display: flex;
+    flex-direction: column;
+    margin-left: 450px;
+}
+
+.header-login {
+    display: flex;
+    font-family: 'Permanent Marker';
+    color: rgb(46, 0, 20);
+    letter-spacing: 5px;
+    margin-top: 30%;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20%;
+    gap: 10px;
+}
+
+.label-login {
+    font-weight: 600;
+    color: rgb(68, 34, 32);
+}
+
+.input-login {
+    border: 1px solid rgb(68, 34, 32);
+}
+
+/* Example */
+
+/* CSS */
+button {
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 60%;
+  z-index: 9;
+  border: 0;
+  transition: box-shadow .2s;
+}
+
+button:hover {
+  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
+}

@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
 }
 
 .App {
@@ -61,3 +64,14 @@ body {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+
+/* 
+RGB:
+
+Dark Sienna: rgb(46, 0, 20);
+Dark Sienna-2: rgb(68, 34, 32);
+Moss Green: rgb(128, 152, 72);
+Olivine: rgb(176, 202, 135);
+Celadon: rgb(181, 222, 173);
+*/

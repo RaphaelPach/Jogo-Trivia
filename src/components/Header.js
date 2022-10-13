@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { urlAction } from '../Redux/actions/index';
+import '../pages/css/Header.css';
 
 class Header extends React.Component {
   getImage = () => {
@@ -20,10 +21,23 @@ class Header extends React.Component {
   render() {
     const { userName, userScore } = this.props;
     return (
-      <div>
-        <img src={ this.getImage() } alt="" data-testid="header-profile-picture" />
-        <h4 data-testid="header-player-name">{userName}</h4>
-        <h4 data-testid="header-score">{userScore}</h4>
+      <div className="div-header">
+        <img
+          id="header-profile-picture"
+          src={ this.getImage() }
+          alt=""
+          data-testid="header-profile-picture"
+        />
+        <h4 id="header-player-name" data-testid="header-player-name">
+          Nome:
+          {' '}
+          {userName}
+        </h4>
+        <h4 id="header-score" data-testid="header-score">
+          Total:
+          {' '}
+          {userScore}
+        </h4>
       </div>
     );
   }

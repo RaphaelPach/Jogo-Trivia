@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { scoreAct } from '../Redux/actions';
 import '../App.css';
+import './css/Games.css';
 
 class Games extends React.Component {
   state = {
@@ -150,93 +151,91 @@ class Games extends React.Component {
       response } = this.state;
     return (
       <div>
-
         <Header />
-        <h1>Trivia</h1>
-        <h2>
-          Score:
-          {score}
-        </h2>
-        {
-          (!isLoading) && (
-            <div>
-              <h3 data-testid="question-category">
-                {questions?.results[nQuestion].category}
-              </h3>
-              <h4 data-testid="question-text">
-                {questions?.results[nQuestion].question}
-              </h4>
-              <div data-testid="answer-options">
+        <div className="div-game">
+          <h1>Trivia</h1>
+          <h2>
+            Score:
+            {score}
+          </h2>
+          {
+            (!isLoading) && (
+              <div>
+                <h3 data-testid="question-category">
+                  {questions?.results[nQuestion].category}
+                </h3>
+                <h4 className="question-text" data-testid="question-text">
+                  {questions?.results[nQuestion].question}
+                </h4>
+                <div className="answer-options" data-testid="answer-options">
+                  {
+                    questions?.results[nQuestion].newAnswers.map((elem, index) => (
+                      (questions.results[nQuestion].incorrect_answers
+                        .some((e) => e === elem)) ? (
+                          <button
+                            key={ index }
+                            {
+                              ...(showAnswer
+                            && response && { style: { border: '3px solid red' } })
+                            }
+                            className="incorrect-unColor"
+                            type="button"
+                            data-testid={ `wrong-answer-${index}` }
+                            onClick={ this.handleClickIncorrect }
+                            disabled={ disabled }
+                          >
+                            {elem}
+                          </button>
+                        ) : (
+                          <button
+                            key={ index }
+                            {
+                              ...(showAnswer
+                            && response
+                            && { style: { border: '3px solid rgb(6, 240, 15)' } })
+                            }
+                            className="correct-unColor"
+                            type="button"
+                            disabled={ disabled }
+                            data-testid="correct-answer"
+                            onClick={ () => this
+                              .handleClickCorrect(questions
+                                .results[nQuestion].difficulty) }
+                          >
+                            {elem}
+                          </button>
+                        )
+                    ))
+                  }
+                </div>
                 {
-                  questions?.results[nQuestion].newAnswers.map((elem, index) => (
-                    (questions.results[nQuestion].incorrect_answers
-                      .some((e) => e === elem)) ? (
-                        <button
-                          key={ index }
-                          {
-                            ...(showAnswer
-                          && response && { style: { border: '3px solid red' } })
-                          }
-                          className="incorrect-unColor"
-                          type="button"
-                          data-testid={ `wrong-answer-${index}` }
-                          onClick={ this.handleClickIncorrect }
-                          disabled={ disabled }
-                        >
-                          {elem}
-                        </button>
-                      ) : (
-                        <button
-                          key={ index }
-                          {
-                            ...(showAnswer
-                          && response
-                          && { style: { border: '3px solid rgb(6, 240, 15)' } })
-                          }
-                          className="correct-unColor"
-                          type="button"
-                          disabled={ disabled }
-                          data-testid="correct-answer"
-                          onClick={ () => this
-                            .handleClickCorrect(questions
-                              .results[nQuestion].difficulty) }
-                        >
-                          {elem}
-                        </button>
-                      )
-                  ))
+                  (response) && (
+                    <button
+                      type="button"
+                      data-testid="btn-next"
+                      onClick={ this.nextQuestion }
+                    >
+                      Next
+                    </button>
+                  )
                 }
+                <h3>
+                  {timer}
+                </h3>
               </div>
-              {
-                (response) && (
-                  <button
-                    type="button"
-                    data-testid="btn-next"
-                    onClick={ this.nextQuestion }
-                  >
-                    Next
-                  </button>
-                )
-              }
-              <h3>
-                {timer}
-              </h3>
-            </div>
-          )
-        }
+            )
+          }
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  name: state.player.name,
+const mapStateToProps = (state) => ({ name: state.player.name,
   url: state.player.url,
 });
 
-Games.defaultProps = {
-  url: '',
-};
+Games.defaultProps = { url: '' };
 
 Games.propTypes = {
   dispatch: PropTypes.func.isRequired,
