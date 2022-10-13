@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getToken, emailAction } from '../Redux/actions';
+import './css/Login.css';
+import interrogation from '../assets/interrogation.png';
 
 class Login extends Component {
   state = {
@@ -58,20 +60,27 @@ class Login extends Component {
   render() {
     const { disabled } = this.state;
     return (
-      <div>
-        <form>
-          <label htmlFor="input-player-name">
+      <div className="body-login">
+        <div className="header-login">
+          <h1>Jogo de Trivia</h1>
+          <img src={ interrogation } alt="interrogation" width="40px" height="40px" />
+          <img src={ interrogation } alt="interrogation" width="20px" height="20px" />
+        </div>
+        <form className="form-login">
+          <label className="label-login" htmlFor="input-player-name">
             Usuario:
             <input
+              className="input-login"
               type="text"
               name="user"
               data-testid="input-player-name"
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="input-gravatar-email">
+          <label className="label-login" htmlFor="input-gravatar-email">
             Email:
             <input
+              className="input-login"
               type="email"
               name="email"
               data-testid="input-gravatar-email"
@@ -95,7 +104,6 @@ class Login extends Component {
             Configurações
           </button>
         </form>
-
       </div>
     );
   }

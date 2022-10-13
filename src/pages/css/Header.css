@@ -1,0 +1,23 @@
+.div-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px; 
+    margin-top: 35px;
+    margin-left: 40px;
+    font-size: 25px;
+}
+
+#header-player-name {
+    color: rgb(46, 0, 20);
+}
+
+#header-score {
+    color: rgb(46, 0, 20);
+}
+
+#header-profile-picture {
+    width: 80px;
+    border-radius: 50%;
+    border: 2px solid rgb(46, 0, 20);
+}
